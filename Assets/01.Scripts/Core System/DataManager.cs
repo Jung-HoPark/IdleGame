@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
     {
         if (GameManager.Instance.Asset == null) return;
 
-        // BigInteger는 바로 저장할 수 없으므로 문자열(string)로 변환해 저장해
+        // BigInteger는 바로 저장할 수 없으므로 문자열(string)로 변환해 저장
         string moneyStr = GameManager.Instance.Asset.TotalAsset.ToString();
         PlayerPrefs.SetString(Constants.SAVE_KEY_MONEY, moneyStr);
 
