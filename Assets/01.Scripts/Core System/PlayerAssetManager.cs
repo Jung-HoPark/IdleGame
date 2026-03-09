@@ -6,8 +6,13 @@ using System.Numerics;
 public class PlayerAssetManager : MonoBehaviour
 {
     [Header("Current Assets")]
-    public BigInteger TotalAsset = 0; // 전체 자산
-    public BigInteger CPS = 0;        // 초당 수익
+    public BigInteger TotalAsset = 0;   // 전체 자산
+    public int Dia = 0;
+
+    [Header("Income Stats")]
+    public BigInteger CPS = 0;          // 초당 수익
+    public BigInteger GoldPerClick = 1; // 클릭당 수익
+    public BigInteger GoldPerMin => CPS * 60;
 
     [Header("Settings")]
     public bool isProfitFrozen = false; // 이벤트로 인한 수익 정지 상태 체크

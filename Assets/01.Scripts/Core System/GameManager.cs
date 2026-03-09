@@ -8,17 +8,19 @@ public class GameManager : MonoBehaviour
 
     [Header("Core Systems")]
     public PlayerAssetManager Asset;
-    public ProgressionManager Prog;
+    // public ProgressionManager Prog;
     public DataManager SaveLoad;
+    public ScreenClicker screenClicker;
 
     [Header("Content Systems")]
-    public StartupCompanyManager Startup;
-    public EmergencyEventManager Event;
-    public StockMarketManager Stock;
-    public RankingManager Rank;
+    // public StartupCompanyManager Startup;
+    // public EmergencyEventManager Event;
+    // public StockMarketManager Stock;
+    // public RankingManager Rank;
 
     //[Header("UI Systems")]
     public UIManager UI;
+    public ObjectPoolManager Pool;
 
     private void Awake()
     {
@@ -38,8 +40,9 @@ public class GameManager : MonoBehaviour
     private void InitManagers()
     {
         // 자산 매니저가 없을 경우 컴포넌트를 찾아줌
-        if (Asset == null) Asset = GetComponent<PlayerAssetManager>();
-        if (SaveLoad == null) SaveLoad = GetComponent<DataManager>();
+        
+        if (UI != null) UI.Init();
+
 
         // 데이터 불러오기
         SaveLoad.Load();
