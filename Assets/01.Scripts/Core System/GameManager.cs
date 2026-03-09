@@ -6,20 +6,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // !!만들어지면 헤더 지우기!!
-    //[Header("Core Systems")]
-    //public PlayerAssetManager Asset;
-    //public ProgressionManager Prog;
-    //public DataManager SaveLoad;
+    [Header("Core Systems")]
+    public PlayerAssetManager Asset;
+    public ProgressionManager Prog;
+    public DataManager SaveLoad;
 
-    //[Header("Content Systems")]
-    //public StartupCompanyManager Startup;
-    //public EmergencyEventManager Event;
-    //public StockMarketManager Stock;
-    //public RankingManager Rank;
+    [Header("Content Systems")]
+    public StartupCompanyManager Startup;
+    public EmergencyEventManager Event;
+    public StockMarketManager Stock;
+    public RankingManager Rank;
 
     //[Header("UI Systems")]
-    //public UIManager UI;
+    public UIManager UI;
 
     private void Awake()
     {
@@ -38,7 +37,11 @@ public class GameManager : MonoBehaviour
 
     private void InitManagers()
     {
-        // 여기서 각 매니저들의 초기화 순서 제어
-        Debug.Log("모든 시스템 초기화 완료!");
+        // 자산 매니저가 없을 경우 컴포넌트를 찾아줌
+        if (Asset == null) Asset = GetComponent<PlayerAssetManager>();
+        if (SaveLoad == null) SaveLoad = GetComponent<DataManager>();
+
+        // 데이터 불러오기
+        SaveLoad.Load();
     }
 }
