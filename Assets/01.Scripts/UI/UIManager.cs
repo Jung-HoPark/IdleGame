@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 
@@ -16,12 +17,6 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI currentDiaText;
 
     string testRes; // 임시자원
-
-    //테스트용 나중에 게임매니저에서 불러와서 초기화해야 합니다.
-    private void Awake()
-    {
-        Init();
-    }
 
     public void Init()
     {
@@ -54,5 +49,13 @@ public class UIManager : MonoBehaviour
         currentDiaText.text = diaText;
     }
 
+    public void UpdateAssetUI()
+    {
+        BigInteger currentMoney = GameManager.Instance.Asset.TotalAsset;
+
+        string formattedMoney = BigIntegerFormatter.Format(currentMoney);
+
+        UpdateCurrentGoldUI(formattedMoney);
+    }
 
 }
