@@ -9,7 +9,7 @@ public class PlayerAssetManager : MonoBehaviour
 {
     [Header("Current Assets")]
     public BigInteger TotalAsset = 0;   // 전체 자산
-    public int Dia = 0;
+    public BigInteger Dia = 0;
 
     [Header("Income Stats")]
     public BigInteger CPS = 0;          // 초당 수익
