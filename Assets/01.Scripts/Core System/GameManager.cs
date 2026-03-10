@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Core Systems")]
     public PlayerAssetManager Asset;
-    // public ProgressionManager Prog;
+    public ProgressionManager Prog;
     public DataManager SaveLoad;
     public ScreenClicker screenClicker;
 
