@@ -13,7 +13,7 @@ public class EquipmentManager : MonoBehaviour
     {
         if (target.isPurchased) return false;
         if (!target.canPurchase) return false;
-        if (!PlayerAssetManager.Instance.DeductAsset(target.itemPrice)) return false;
+        if (!GameManager.Instance.Asset.DeductAsset(target.itemPrice)) return false;
 
         target.isPurchased = true;
         ProgressionManager.Instance.UnlockContent(target.unlockContent);
