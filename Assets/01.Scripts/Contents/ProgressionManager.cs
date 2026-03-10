@@ -6,9 +6,8 @@ public class ProgressionManager : MonoBehaviour
 {
     public static ProgressionManager Instance;
 
-    public bool isCompany1Unlocked;
+    public bool isCompanyUnlocked;
     public bool isOutsourceUnlocked;
-    public bool isCompany2Unlocked;
     public bool isInHouseUnlocked;
     public bool isSelfDevelopmentUnlocked;
 
@@ -25,34 +24,6 @@ public class ProgressionManager : MonoBehaviour
         }
     }
 
-    public void UnlockContent(ContentType contents)
-    {
-        switch (contents)
-        {
-            case ContentType.Company1:
-                isCompany1Unlocked = true;
-                break;
-            case ContentType.Outsource:
-                isOutsourceUnlocked = true;
-                break;
-            case ContentType.Company2:
-                isCompany2Unlocked = true;
-                break;
-            case ContentType.SelfDevelopment:
-                isInHouseUnlocked = true;
-                break;
-        }
-    }
-    public bool IsUnlocked(ContentType content)
-    {
-        switch (content)
-        {
-            case ContentType.Company1: return isCompany1Unlocked;
-            case ContentType.Outsource: return isOutsourceUnlocked;
-            case ContentType.Company2: return isCompany2Unlocked;
-            case ContentType.SelfDevelopment: return isSelfDevelopmentUnlocked;
-        }
-        return false;
-    }
+    
 
 }
