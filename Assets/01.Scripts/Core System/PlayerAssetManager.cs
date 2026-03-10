@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Numerics;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class PlayerAssetManager : MonoBehaviour
 {
@@ -17,18 +19,29 @@ public class PlayerAssetManager : MonoBehaviour
     [Header("Settings")]
     public bool isProfitFrozen = false; // 이벤트로 인한 수익 정지 상태 체크
 
-    private float timer = 0f;
-
-    private void Update()
+    private CancellationTokenSource _cts;
+    private void Start()
     {
-        // 1초마다 초당 수익(CPS)을 더해줌
-        if (!isProfitFrozen)
+        // 비동기 루프 시작
+        _cts = new CancellationTokenSource();
+        ProfitLoopTask(_cts.Token).Forget();
+    }
+    private void OnDestroy()
+    {
+        // 오브젝트 파괴 시 루프 안전하게 종료
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+    // 1초마다 자산을 추가하는 비동기 루프
+    private async UniTaskVoid ProfitLoopTask(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
         {
-            timer += Time.deltaTime;
-            if (timer >= 1f)
+            await UniTask.Delay(1000, delayTiming: PlayerLoopTiming.Update, cancellationToken: token);
+
+            if (!isProfitFrozen && CPS > 0)
             {
                 AddAsset(CPS);
-                timer = 0f;
             }
         }
     }
