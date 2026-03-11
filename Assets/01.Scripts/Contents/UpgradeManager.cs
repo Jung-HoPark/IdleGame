@@ -8,8 +8,8 @@ public class UpgradeManager : MonoBehaviour
 
     public List<UpgradeDataSO> upgrades;
 
-    Dictionary<string, UpgradeDataSO> upgradeDict = new Dictionary<string, UpgradeDataSO>();
-    Dictionary<string, int> upgradeLevels = new Dictionary<string, int>();
+    public Dictionary<string, UpgradeDataSO> upgradeDict = new Dictionary<string, UpgradeDataSO>();
+    public Dictionary<string, int> upgradeLevels = new Dictionary<string, int>();
 
 
     public void Init()
