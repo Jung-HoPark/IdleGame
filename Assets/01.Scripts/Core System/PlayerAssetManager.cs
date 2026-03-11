@@ -20,11 +20,13 @@ public class PlayerAssetManager : MonoBehaviour
     public bool isProfitFrozen = false; // 이벤트로 인한 수익 정지 상태 체크
 
     private CancellationTokenSource _cts;
-    private void Start()
+
+    public void Init()
     {
-        // 비동기 루프 시작
         _cts = new CancellationTokenSource();
         ProfitLoopTask(_cts.Token).Forget();
+
+        // (UI 업데이트는 어차피 GameManager에서 나중에 해줄 거니 여기서 뺍니다)
     }
     private void OnDestroy()
     {

@@ -5,10 +5,7 @@ public class UpgradeUI : MonoBehaviour
 {
     [Header("UI 연결")]
     public Transform contentTransform; 
-    public GameObject slotPrefab;     
-
-    [Header("업그레이드 데이터 리스트")]
-    public List<UpgradeDataSO> upgradeDatas; 
+    public GameObject slotPrefab;
 
     private void Start()
     {
@@ -22,11 +19,13 @@ public class UpgradeUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (UpgradeDataSO data in upgradeDatas)
+        List<UpgradeDataSO> managerUpgrades = GameManager.Instance.Upgrade.upgrades;
+
+        foreach (var data in managerUpgrades)
         {
             GameObject newSlot = Instantiate(slotPrefab, contentTransform);
 
-            UpgradeSlot slotScript = newSlot.GetComponent<UpgradeSlot>();
+            var slotScript = newSlot.GetComponent<UpgradeSlot>();
 
             if (slotScript != null)
             {

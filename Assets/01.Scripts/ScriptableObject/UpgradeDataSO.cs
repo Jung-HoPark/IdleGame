@@ -25,6 +25,9 @@ public class UpgradeDataSO : ScriptableObject
     [Header("성장 밸런스 계수")]
     public float costMultiplier = 1.15f;
     public float rewardGrowth = 0.5f; // 수익 상승 가속도
+
+    public int maxLevel = 300; // 최대 레벨
+
     public BigInteger GetCost(int currentLevel)
     {
         if (!BigInteger.TryParse(baseCostStr, out BigInteger baseCost)) return 0;
@@ -38,8 +41,7 @@ public class UpgradeDataSO : ScriptableObject
         if (!BigInteger.TryParse(baseRewardStr, out BigInteger baseReward)) return 0; // return 0 = 안전장치 
         if (currentLevel == 0) return 0;
 
-        // '구간 가속형' 수식 (단순 +1도 아니고, % 사기도 아닌 그 중간!)
-        // 10레벨 단위로 보상이 확확 뛰도록 accelFactor를 적용한 아주 좋은 수식입니다.
+        // '구간 가속형'
         float accelFactor = currentLevel / 10f;
         double addedReward = currentLevel * rewardGrowth * accelFactor;
 
