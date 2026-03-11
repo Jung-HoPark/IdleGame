@@ -21,19 +21,25 @@ public class UpgradeSlot : MonoBehaviour
     {
         myData = data;
 
-        if (myData.icon != null && iconImage != null)
-        {
-            iconImage.sprite = myData.icon;
-        }
+        purchaseButton.onClick.RemoveAllListeners();
+        purchaseButton.onClick.AddListener(OnClickPurchase);
 
+        UpdateUI(); 
+
+    }
+
+    public void UpdateUI()
+    {
+        if (myData.icon != null && iconImage != null) iconImage.sprite = myData.icon;
         descText.text = myData.upgradeDesc;
 
-        // SO의 수학 공식 함수에 현재 레벨을 던져서 BigInteger 값 받아오기!
+        // GameManager에서 현재 내 레벨이 몇인지 물어봐서 가져옴!
+        currentLevel = GameManager.Instance.Upgrade.GetUpgradeLevel(myData.upgradeID);
+
         BigInteger currentVal = myData.GetReward(currentLevel);
         BigInteger nextVal = myData.GetReward(currentLevel + 1);
         BigInteger currentPrice = myData.GetCost(currentLevel);
 
-        // 타입에 맞춰서 기호(+, %, -) 붙여서 출력하기
         switch (myData.type)
         {
             case UpgradeType.ClickPower:
@@ -41,20 +47,26 @@ public class UpgradeSlot : MonoBehaviour
                 currentText.text = "+" + currentVal.ToString();
                 nextText.text = "+" + nextVal.ToString();
                 break;
-
             case UpgradeType.GlobalMultiplier:
                 currentText.text = currentVal.ToString() + "%";
                 nextText.text = nextVal.ToString() + "%";
                 break;
-
             case UpgradeType.SalaryReduction:
                 currentText.text = "-" + currentVal.ToString();
                 nextText.text = "-" + nextVal.ToString();
                 break;
         }
 
-        // 레벨과 가격 표시 (BigInteger는 ToString()으로 출력)
         levelText.text = "Lv." + currentLevel.ToString();
         priceText.text = currentPrice.ToString();
+    }
+    private void OnClickPurchase()
+    {
+        bool success = GameManager.Instance.Upgrade.BuyUpgrade(myData.upgradeID);
+
+        if (success)
+        {
+            UpdateUI();
+        }
     }
 }
