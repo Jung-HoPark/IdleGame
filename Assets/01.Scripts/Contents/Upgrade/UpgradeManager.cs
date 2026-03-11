@@ -5,17 +5,30 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    // 테스트용 데이터
+    public static UpgradeManager Instance;
+
+    // 테스트용 데이터, 싱글톤도 테스트용
     public int asset = 1000;
     public int CPS = 1;
     public int secondIncome = 10;
 
-
     public List<UpgradeSO> upgrades;
 
-    Dictionary<string, UpgradeSO> upgradeDict = new Dictionary<string, UpgradeSO>(); // <ID, 업그레이드SO>
-    Dictionary<string, int> upgradeLevels = new Dictionary<string, int>(); // <ID, 레벨>
+    public Dictionary<string, UpgradeSO> upgradeDict = new Dictionary<string, UpgradeSO>(); // <ID, 업그레이드SO>
+    public Dictionary<string, int> upgradeLevels = new Dictionary<string, int>(); // <ID, 레벨>
 
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         foreach (UpgradeSO upgrade in upgrades)
