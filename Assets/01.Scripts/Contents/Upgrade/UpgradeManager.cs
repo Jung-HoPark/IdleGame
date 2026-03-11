@@ -28,10 +28,10 @@ public class UpgradeManager : MonoBehaviour
         if (level >= upgrade.maxLevel) return false;
 
 
-        BigInteger cost = upgrade.GetCost(level); // ÄÚ½ºÆ® ¸¸Å­ Â÷°¨
+        BigInteger cost = upgrade.GetCost(level); // ï¿½Ú½ï¿½Æ® ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½
         if (!GameManager.Instance.Asset.DeductAsset(cost))
         {
-            Debug.Log("µ· ¸ðÀÚ¶÷");
+            Debug.Log("ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½");
             return false;
         }
 
@@ -42,7 +42,7 @@ public class UpgradeManager : MonoBehaviour
         BigInteger valueIncrease = currentValue - previousValue;
 
         ApplyStat(upgrade.type, valueIncrease);
-        Debug.Log($"{upgrade.upgradeName} ±¸¸Å¼º°ø");
+        Debug.Log($"{upgrade.upgradeName} ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½");
         return true;
     }
 

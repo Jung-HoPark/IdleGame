@@ -197,6 +197,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 41503868}
   m_CullTransparentMesh: 1
+--- !u!1 &57986104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57986106}
+  - component: {fileID: 57986105}
+  m_Layer: 0
+  m_Name: UpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &57986105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57986104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804056148ebe26640b1f1a43f2247d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrades:
+  - {fileID: 11400000, guid: f169006a3c3c9c44c85abdda36114427, type: 2}
+  - {fileID: 11400000, guid: 4b76a1069ce5bb54b9034cc87fcc3a5f, type: 2}
+  - {fileID: 11400000, guid: 54af52523d8bd614ab599dfcccda6170, type: 2}
+  - {fileID: 11400000, guid: 5ed02074c5713fe4a8915ed69728cbc2, type: 2}
+  - {fileID: 11400000, guid: 248ca6988d7016e4e988058237fe01ec, type: 2}
+  - {fileID: 11400000, guid: 41c1bde66e5012840b162be1884af377, type: 2}
+  - {fileID: 11400000, guid: 450d074ffdaef4e40b920f4115406fbb, type: 2}
+--- !u!4 &57986106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57986104}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2027678913}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94260985
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,14 +608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentTransform: {fileID: 2019154257}
   slotPrefab: {fileID: 7332434478433812158, guid: d1f930c49445ed44c8400b71f06d6256, type: 3}
-  upgradeDatas:
-  - {fileID: 11400000, guid: f169006a3c3c9c44c85abdda36114427, type: 2}
-  - {fileID: 11400000, guid: 4b76a1069ce5bb54b9034cc87fcc3a5f, type: 2}
-  - {fileID: 11400000, guid: 54af52523d8bd614ab599dfcccda6170, type: 2}
-  - {fileID: 11400000, guid: 5ed02074c5713fe4a8915ed69728cbc2, type: 2}
-  - {fileID: 11400000, guid: 248ca6988d7016e4e988058237fe01ec, type: 2}
-  - {fileID: 11400000, guid: 41c1bde66e5012840b162be1884af377, type: 2}
-  - {fileID: 11400000, guid: 450d074ffdaef4e40b920f4115406fbb, type: 2}
 --- !u!1 &154306048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5484e6ba8b6b246875d389bbc2e855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dia: 0
   isProfitFrozen: 0
 --- !u!4 &464803766
 Transform:
@@ -5336,6 +5379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d20688b67468e5498c57ffb95e59426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CostList: []
 --- !u!4 &1313715858
 Transform:
   m_ObjectHideFlags: 0
@@ -8664,6 +8708,7 @@ Transform:
   - {fileID: 464803766}
   - {fileID: 1313715858}
   - {fileID: 2084677705}
+  - {fileID: 57986106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2027678914
@@ -8682,6 +8727,8 @@ MonoBehaviour:
   Prog: {fileID: 0}
   SaveLoad: {fileID: 1313715857}
   screenClicker: {fileID: 1895124117}
+  Purchase: {fileID: 0}
+  Upgrade: {fileID: 57986105}
   UI: {fileID: 1592420755}
   Pool: {fileID: 2084677706}
 --- !u!1 &2035037629

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Content Systems")]
     public PurchaseManager Purchase;
+    public UpgradeManager Upgrade;
     // public StartupCompanyManager Startup;
     // public EmergencyEventManager Event;
     // public StockMarketManager Stock;
@@ -43,20 +44,21 @@ public class GameManager : MonoBehaviour
     private async UniTaskVoid InitializeGame()
     {
         // 1. 기초 UI 및 오브젝트 풀 초기화
-        if (UI != null) UI.Init();
+        if(Asset != null) Asset.Init();
+        if(Upgrade != null) Upgrade.Init();
         if (Pool != null) { /* Pool 초기화 로직이 있다면 여기서 실행 */ }
 
-        // 2. 구글 시트 데이터 로드 (기준 데이터)
-        await SaveLoad.LoadDataFromGoogleSheet();
+        if (UI != null) UI.Init();
 
-        // 3. 로컬 저장 데이터 불러오기 (오프라인 수익 계산 포함)
+        // 2. 로컬 저장 데이터 불러오기 (비동기 경고 해결을 위해 await UniTask.Yield 추가)
         SaveLoad.Load();
+        await UniTask.Yield();
 
-        // 4. 콘텐츠 매니저 초기화 (시트 데이터가 들어온 후 실행)
+        if (UI != null) UI.UpdateAssetUI();
+
+        // 3. 수익률 동기화 (로드된 레벨 기반)
         if (Purchase != null)
         {
-            // 여기서 시트 데이터를 기반으로 아이템 리스트를 구성하거나
-            // 현재 저장된 레벨을 바탕으로 CPS를 계산
             Purchase.RefreshTotalCPS();
         }
     }
