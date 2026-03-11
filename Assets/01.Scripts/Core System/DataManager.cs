@@ -8,51 +8,7 @@ using static System.Net.WebRequestMethods;
 
 public class DataManager : MonoBehaviour
 {
-    private const string sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT6ZQ-rLJD74Yd2ObGJvmSZOITQxdVI5jlvzmGxlq5Sg1oCfkCUzpY7BcqcY9AgnDJqHiBsLLLMctH5/pub?gid=151104950&single=true&output=csv";
-
-    public List<CostData> CostList = new List<CostData>();
-
-    // 버튼 연결용 혹은 Start에서 호출용
-    public async UniTask LoadDataFromGoogleSheet()
-    {
-        Debug.Log("구글 시트에서 데이터를 가져오는 중...");
-        using (UnityWebRequest www = UnityWebRequest.Get(sheetURL))
-        {
-            // 비동기로 데이터 요청
-            await www.SendWebRequest().ToUniTask();
-
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                ParseCSV(www.downloadHandler.text);
-            }
-            else
-            {
-                Debug.LogError("데이터 로드 실패: " + www.error);
-            }
-        }
-    }
-    private void ParseCSV(string csvText)
-    {
-        CostList.Clear();
-
-        // 줄바꿈으로 나누기
-        string[] lines = csvText.Split(new[] { "\r\n", "\r", "\n" }, System.StringSplitOptions.None);
-        for (int i = 1; i < lines.Length; i++) // 첫 줄(헤더) 제외
-        {
-            if (string.IsNullOrWhiteSpace(lines[i])) continue;
-
-            string[] row = lines[i].Split(',');
-            CostData data = new CostData();
-            data.ID = int.Parse(row[0]);
-            data.Name = row[1];
-            data.BaseCost = row[2];
-            data.IncreaseRate = float.Parse(row[3]);
-            data.Desc = row[4];
-
-            CostList.Add(data);
-        }
-        Debug.Log($"총 {CostList.Count}개의 데이터를 실시간 반영");
-    }
+    [SerializeField] private UpgradeManager teamUpgradeManager;
 
     private void OnApplicationQuit()
     {
@@ -64,33 +20,44 @@ public class DataManager : MonoBehaviour
     {
         if (GameManager.Instance.Asset == null) return;
 
-        // BigInteger는 바로 저장할 수 없으므로 문자열(string)로 변환해 저장
-        string moneyStr = GameManager.Instance.Asset.TotalAsset.ToString();
-        PlayerPrefs.SetString(Constants.SAVE_KEY_MONEY, moneyStr);
+        // 1. 자산 저장 (BigInteger -> String)
+        PlayerPrefs.SetString(Constants.SAVE_KEY_MONEY, GameManager.Instance.Asset.TotalAsset.ToString());
 
-        // 마지막 종료 시간 저장 (오프라인 수익 계산용)
+        // 2. 변경된 upgradeID를 키로 사용하여 레벨 저장
+        foreach (var upgrade in teamUpgradeManager.upgrades)
+        {
+            int currentLevel = teamUpgradeManager.GetUpgradeLevel(upgrade.upgradeID);
+            PlayerPrefs.SetInt($"Level_{upgrade.upgradeID}", currentLevel);
+        }
+
         PlayerPrefs.SetString("LastExitTime", System.DateTime.Now.ToBinary().ToString());
-
-        PlayerPrefs.Save(); // 디스크에 즉시 반영
-        Debug.Log("데이터 저장 완료: " + moneyStr);
+        PlayerPrefs.Save();
     }
     // 데이터 불러오기 로직
     public void Load()
     {
-        // 자산 불러오기
+        // 1. 자산 불러오기
         if (PlayerPrefs.HasKey(Constants.SAVE_KEY_MONEY))
         {
             string savedMoney = PlayerPrefs.GetString(Constants.SAVE_KEY_MONEY);
             GameManager.Instance.Asset.TotalAsset = BigInteger.Parse(savedMoney);
         }
-        else
+
+        // 2. 레벨 데이터 불러오기 및 팀원 매니저에 강제 주입
+        foreach (var upgrade in teamUpgradeManager.upgrades)
         {
-            // 저장된 데이터가 없으면 초기값 설정
-            GameManager.Instance.Asset.TotalAsset = 0;
+            int savedLevel = PlayerPrefs.GetInt($"Level_{upgrade.upgradeID}", 0);
+
+            // 팀원분의 딕셔너리에 직접 접근하여 레벨 설정
+            // (UpgradeManager 내 upgradeLevels 딕셔너리가 public이어야 합니다)
+            /* if (teamUpgradeManager.upgradeLevels.ContainsKey(upgrade.upgradeID))
+            {
+                teamUpgradeManager.upgradeLevels[upgrade.upgradeID] = savedLevel;
+            }
+            */
         }
 
         CalculateOfflineReward();
-        Debug.Log("데이터 로드 완료!");
     }
     // 오프라인 수익 계산
     public void CalculateOfflineReward()
