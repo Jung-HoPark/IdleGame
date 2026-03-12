@@ -25,6 +25,8 @@ public class DataManager : MonoBehaviour
     [SerializeField] private UpgradeManager teamUpgradeManager;
     private string savePath;
 
+    public bool isFirstReset = false;
+
     private void Awake()
     {
         // 저장 경로 설정 (PC, 모바일 모두 대응)
@@ -33,6 +35,11 @@ public class DataManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        if (isFirstReset)
+        {
+            Debug.Log("초기화 상태이므로 저장을 건너뜁니다.");
+            return;
+        }
         Save();
     }
 
