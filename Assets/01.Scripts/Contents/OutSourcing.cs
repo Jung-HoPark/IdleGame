@@ -1,51 +1,89 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class OutSourcing : MonoBehaviour
 {
-    public bool isUnlocked = false; // 해금 여부
+    [SerializeField]
+    private bool isUnlocked = false; // 해금 여부
 
     [Header("업그레이드 스탯")]
-    public int value = 100; // 기본값
-    public int interval = 5; // 실행 간격
-    [Tooltip("치명타 확률 (0~1, 예: 0.85f = 85%)")]
-    public float critChance = 0.3f; 
-    [Tooltip("치명타 배율 (2f = 200%)")]
-    public float critDamage = 2f; 
+    public string valueStr = "100"; // 초기값
+    private BigInteger value;
+
+    [SerializeField]
+    private int interval = 5; // 실행 간격
+
+    [SerializeField]
+    private int critChance = 30;
+
+    [SerializeField]
+    private int critDamage = 200;
 
 
     float timer;
+    
+    public bool IsUnlocked
+    {
+        get { return isUnlocked; }
+        private set { isUnlocked = value; }
+    }
+    
 
+    public int CritChance
+    {
+        get
+        { return critChance; }
+        set
+        {
+            critChance = Mathf.Clamp(value, 0, 100); // 최대 100까지
+        }
+    }
+    public int CritDamage
+    {
+        get
+        { return critDamage; }
+        set
+        {
+            critDamage = Mathf.Max(value, 100); // 최소 100 이상
+        }
+    }
+    
     private void Start()
     {
         Debug.Log("외주 시작");
-        isUnlocked = true;
+
+        if (!BigInteger.TryParse(valueStr, out value))
+        {
+            value = 0;
+            Debug.LogWarning("valueStr 파싱 실패");
+        }
     }
 
     private void Update()
     {
-        if (!isUnlocked) return;
+        if (!IsUnlocked) return;
 
         timer += Time.deltaTime;
 
-        if(timer >= interval)
+        if (timer >= interval)
         {
             timer -= interval;
             AddIncome();
-        }    
+        }
     }
 
-    public int CalculateIncome()
+    public BigInteger CalculateIncome()
     {
-        int income = value;
-        
-        if(Random.value < critChance)
+        BigInteger income = value;
+
+        if (Random.Range(0, 100) < CritChance)
         {
             Debug.Log("외주 치명타 발생");
-            income = (int)(income * critDamage);
+            income = income * CritDamage / 100;
         }
 
         return income;
@@ -53,10 +91,17 @@ public class OutSourcing : MonoBehaviour
 
     public void AddIncome()
     {
-        int income = CalculateIncome();
-        // GameManager.Instance.Asset.AddAsset(CalculateIncome());
-        UpgradeManager.Instance.asset += income;
+        BigInteger income = CalculateIncome();
+        // GameManager.Instance.Asset.AddAsset(income);
         Debug.Log($"외주에서 {income} 지급");
     }
 
+    public void IncreaseValue(BigInteger amount)
+    {
+        value += amount;
+    }
+    public void Unlock()
+    {
+        IsUnlocked = true;
+    }
 }
