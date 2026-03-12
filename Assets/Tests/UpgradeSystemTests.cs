@@ -14,38 +14,46 @@ public class UpgradeSystemTests
     [SetUp]
     public void SetUp()
     {
-        // 1. GameManager 생성 및 싱글톤 수동 설정
+        // 1. GameManager 생성 및 인스턴스 강제 설정
         var gameManagerGO = new GameObject("GameManager");
         var gameManager = gameManagerGO.AddComponent<GameManager>();
-        
-        // Reflection을 사용해 싱글톤 인스턴스 강제 설정 (테스트 환경용)
-        var instanceField = typeof(GameManager).GetField("<Instance>k__BackingField", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+
+        // 싱글톤 인스턴스 필드(_instance)에 강제 할당 (리플렉션)
+        var instanceField = typeof(GameManager).GetField("_instance", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
         instanceField?.SetValue(null, gameManager);
 
-        // 2. 필수 매니저 생성 및 연결
+        // 2. 필수 매니저(Asset, Upgrade) 생성 및 private 필드 주입
+
+        // PlayerAssetManager 설정
         var assetGO = new GameObject("AssetManager");
         _assetManager = assetGO.AddComponent<PlayerAssetManager>();
-        gameManager.Asset = _assetManager; // 중요: GameManager가 Asset을 알게 함
+        var assetField = typeof(GameManager).GetField("_asset", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        assetField?.SetValue(gameManager, _assetManager);
 
+        // UpgradeManager 설정
         var upgradeGO = new GameObject("UpgradeManager");
         _upgradeManager = upgradeGO.AddComponent<UpgradeManager>();
         _upgradeManager.upgrades = new List<UpgradeDataSO>();
-        gameManager.Upgrade = _upgradeManager; // 중요: GameManager가 Upgrade를 알게 함
+        var upgradeField = typeof(GameManager).GetField("_upgrade", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        upgradeField?.SetValue(gameManager, _upgradeManager);
 
-        // 3. 테스트용 ScriptableObject 생성
+        // 3. 테스트용 데이터(ScriptableObject) 생성 및 초기화
         _testUpgradeSO = ScriptableObject.CreateInstance<UpgradeDataSO>();
         _testUpgradeSO.upgradeID = "TEST_UPGRADE_01";
-        _testUpgradeSO.upgradeName = "공격력 업그레이드";
+        _testUpgradeSO.upgradeName = "테스트 업그레이드";
         _testUpgradeSO.maxLevel = 5;
         _testUpgradeSO.type = UpgradeType.ClickPower;
         _testUpgradeSO.baseCostStr = "100";
         _testUpgradeSO.baseRewardStr = "10";
+        _testUpgradeSO.costMultiplier = 1.15f;
+        _testUpgradeSO.rewardGrowth = 0.5f;
 
         _upgradeManager.upgrades.Add(_testUpgradeSO);
-        
-        // 초기화 호출
+
+        // 매니저 초기화 호출
         _upgradeManager.Init();
     }
+
 
     [TearDown]
     public void TearDown()

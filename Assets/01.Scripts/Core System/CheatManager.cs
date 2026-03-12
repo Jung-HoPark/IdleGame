@@ -16,8 +16,8 @@ public class CheatManager : MonoBehaviour
 
     private void Update()
     {
+        if (cheatPanel == null) return;
         if (!cheatPanel.activeSelf) return;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleCheatPanel();

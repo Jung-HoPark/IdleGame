@@ -204,7 +204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28891274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: Cheat_AddMoney
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &28891274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +733,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 107796462}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: Cheat_SkipTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &107796462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2496,6 +2520,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395358034}
   m_CullTransparentMesh: 1
+--- !u!1 &424503837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 424503838}
+  - component: {fileID: 424503839}
+  m_Layer: 0
+  m_Name: CheatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &424503838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424503837}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2027678913}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &424503839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424503837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 114a9850e0a710946a557f8e95b5812d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cheatPanel: {fileID: 1675403903}
+  roomEnv: {fileID: 1665666155}
 --- !u!1 &428755292
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,7 +3094,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 496023414}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: Cheat_ChangeMap
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &496023414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3145,7 +3227,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 496903064}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: Cheat_UnlockAll
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &496903064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6267,6 +6361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamUpgradeManager: {fileID: 0}
+  isFirstReset: 0
 --- !u!4 &1313715858
 Transform:
   m_ObjectHideFlags: 0
@@ -9863,7 +9958,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2001600190}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: ToggleCheatPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2001600190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10148,6 +10255,7 @@ Transform:
   - {fileID: 1313715858}
   - {fileID: 2084677705}
   - {fileID: 57986106}
+  - {fileID: 424503838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2027678914
@@ -10162,14 +10270,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f621d157d4ea94b86a9532edaa81a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Asset: {fileID: 464803765}
-  Prog: {fileID: 0}
-  SaveLoad: {fileID: 1313715857}
-  screenClicker: {fileID: 1895124117}
-  Purchase: {fileID: 0}
-  Upgrade: {fileID: 57986105}
-  UI: {fileID: 1592420755}
-  Pool: {fileID: 2084677706}
+  _asset: {fileID: 464803765}
+  _prog: {fileID: 0}
+  _saveLoad: {fileID: 1313715857}
+  _screenClicker: {fileID: 1895124117}
+  _purchase: {fileID: 0}
+  _upgrade: {fileID: 57986105}
+  _outSourcing: {fileID: 0}
+  _selfDevelopment: {fileID: 0}
+  _company: {fileID: 0}
+  _ui: {fileID: 1592420755}
+  _pool: {fileID: 2084677706}
 --- !u!1 &2035037629
 GameObject:
   m_ObjectHideFlags: 0
@@ -10896,7 +11007,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2120002190}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 424503839}
+        m_TargetAssemblyTypeName: CheatManager, Game
+        m_MethodName: Cheat_ResetSave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2120002190
 MonoBehaviour:
   m_ObjectHideFlags: 0
