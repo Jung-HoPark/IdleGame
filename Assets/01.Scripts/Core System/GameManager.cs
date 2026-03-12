@@ -6,33 +6,62 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    // 1. 싱글톤 인스턴스 (수정 불가능하게 캡슐화)
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null) return null;
+            return _instance;
+        }
+    }
 
+    // 2. Core Systems (직렬화 필드는 private, 외부는 Read-Only 프로퍼티로 노출)
     [Header("Core Systems")]
-    public PlayerAssetManager Asset;
-    public ProgressionManager Prog;
-    public DataManager SaveLoad;
-    public ScreenClicker screenClicker;
+    [SerializeField] private PlayerAssetManager _asset;
+    public PlayerAssetManager Asset => _asset;
 
+    [SerializeField] private ProgressionManager _prog;
+    public ProgressionManager Prog => _prog;
+
+    [SerializeField] private DataManager _saveLoad;
+    public DataManager SaveLoad => _saveLoad;
+
+    [SerializeField] private ScreenClicker _screenClicker;
+    public ScreenClicker ScreenClicker => _screenClicker;
+
+    // 3. Content Systems
     [Header("Content Systems")]
-    public PurchaseManager Purchase;
-    public UpgradeManager Upgrade;
-    // public StartupCompanyManager Startup;
-    // public EmergencyEventManager Event;
-    // public StockMarketManager Stock;
-    // public RankingManager Rank;
+    [SerializeField] private PurchaseManager _purchase;
+    public PurchaseManager Purchase => _purchase;
 
+    [SerializeField] private UpgradeManager _upgrade;
+    public UpgradeManager Upgrade => _upgrade;
+
+    [SerializeField] private OutSourcing _outSourcing;
+    public OutSourcing OutSourcing => _outSourcing;
+
+    [SerializeField] private SelfDevelopment _selfDevelopment;
+    public SelfDevelopment SelfDevelopment => _selfDevelopment;
+
+    [SerializeField] private Company _company;
+    public Company Company => _company;
+
+    // 4. UI Systems
     [Header("UI Systems")]
-    public UIManager UI;
-    public ObjectPoolManager Pool;
+    [SerializeField] private UIManager _ui;
+    public UIManager UI => _ui;
+
+    [SerializeField] private ObjectPoolManager _pool;
+    public ObjectPoolManager Pool => _pool;
 
     private void Awake()
     {
-        // 싱글톤 세팅
-        if (Instance == null)
+        if (_instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 파괴되지 않음
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
             InitializeGame().Forget();
         }
         else
@@ -43,23 +72,21 @@ public class GameManager : MonoBehaviour
 
     private async UniTaskVoid InitializeGame()
     {
-        // 1. 기초 UI 및 오브젝트 풀 초기화
-        if(Asset != null) Asset.Init();
-        if(Upgrade != null) Upgrade.Init();
-        if (Pool != null) { /* Pool 초기화 로직이 있다면 여기서 실행 */ }
+        // 내부 필드(_asset 등)를 사용하여 초기화 진행
+        if (_asset != null) _asset.Init();
+        if (_upgrade != null) _upgrade.Init();
+        if (_ui != null) _ui.Init();
 
-        if (UI != null) UI.Init();
-
-        // 2. 로컬 저장 데이터 불러오기 (비동기 경고 해결을 위해 await UniTask.Yield 추가)
-        SaveLoad.Load();
+        // 데이터 로드
+        if (_saveLoad != null) _saveLoad.Load();
         await UniTask.Yield();
 
-        if (UI != null) UI.UpdateAssetUI();
+        if (_ui != null) _ui.UpdateAssetUI();
 
-        // 3. 수익률 동기화 (로드된 레벨 기반)
-        if (Purchase != null)
+        // 수익률 동기화
+        if (_purchase != null)
         {
-            Purchase.RefreshTotalCPS();
+            _purchase.RefreshTotalCPS();
         }
     }
 }
