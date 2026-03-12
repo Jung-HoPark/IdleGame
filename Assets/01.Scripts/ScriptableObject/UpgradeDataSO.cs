@@ -3,8 +3,16 @@ using System.Numerics;
 
 public enum UpgradeType
 {
-    ClickPower, AutoIncome, GlobalMultiplier,
-    OfflineReward, StockEfficiency, SalaryReduction, AutoClicker
+    ClickPower, // 클릭 당
+    AutoIncome, // CPS: 초당
+    OutSourcing,
+    SelfDevelopmnet,
+
+    GlobalMultiplier,
+    OfflineReward,
+    StockEfficiency,
+    SalaryReduction,
+    AutoClicker
 }
 
 [CreateAssetMenu(fileName = "NewUpgradeData", menuName = "PangyoDev/UpgradeData")]
