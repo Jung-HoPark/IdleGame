@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
+    public OutSourcing outaa;
 
     public List<UpgradeDataSO> upgrades;
 
@@ -28,10 +29,9 @@ public class UpgradeManager : MonoBehaviour
         if (level >= upgrade.maxLevel) return false;
 
 
-        BigInteger cost = upgrade.GetCost(level); // �ڽ�Ʈ ��ŭ ����
+        BigInteger cost = upgrade.GetCost(level); 
         if (!GameManager.Instance.Asset.DeductAsset(cost))
         {
-            Debug.Log("�� ���ڶ�");
             return false;
         }
 
@@ -42,7 +42,6 @@ public class UpgradeManager : MonoBehaviour
         BigInteger valueIncrease = currentValue - previousValue;
 
         ApplyStat(upgrade.type, valueIncrease);
-        Debug.Log($"{upgrade.upgradeName} ���ż���");
         return true;
     }
 
@@ -55,6 +54,12 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case UpgradeType.AutoIncome:
                 GameManager.Instance.Asset.CPS += value;
+                break;
+            case UpgradeType.OutSourcing:
+                // GameManager.Instance.outSourcing.IncreaseValue(value);
+                break;
+            case UpgradeType.SelfDevelopmnet:
+                // GameManager.Instance.selfDevelopmnet.IncreaseValue(value);
                 break;
         }
     }
