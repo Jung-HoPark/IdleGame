@@ -22,7 +22,6 @@ public class UpgradeLevelData
 
 public class DataManager : MonoBehaviour
 {
-    [SerializeField] private UpgradeManager teamUpgradeManager;
     private string savePath;
 
     private void Awake()
@@ -39,20 +38,23 @@ public class DataManager : MonoBehaviour
     // 데이터 저장 로직
     public void Save()
     {
-        if (GameManager.Instance.Asset == null) return;
+        var asset = GameManager.Instance.Asset;
+        var upgrade = GameManager.Instance.Upgrade;
+
+        if (asset == null || upgrade == null) return;
 
         SaveData data = new SaveData();
 
         // 데이터 채우기
-        data.totalMoney = GameManager.Instance.Asset.TotalAsset.ToString();
+        data.totalMoney = asset.TotalAsset.ToString();
         data.lastExitTime = DateTime.Now.ToBinary().ToString();
 
-        foreach (var upgrade in teamUpgradeManager.upgrades)
+        foreach (var upData in upgrade.upgrades)
         {
             data.upgradeLevels.Add(new UpgradeLevelData
             {
-                id = upgrade.upgradeID,
-                level = teamUpgradeManager.GetUpgradeLevel(upgrade.upgradeID)
+                id = upData.upgradeID,
+                level = upgrade.GetUpgradeLevel(upData.upgradeID)
             });
         }
 
@@ -69,15 +71,18 @@ public class DataManager : MonoBehaviour
         string json = File.ReadAllText(savePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // 1. 자산 복구
-        GameManager.Instance.Asset.TotalAsset = BigInteger.Parse(data.totalMoney);
+        var asset = GameManager.Instance.Asset;
+        var upgrade = GameManager.Instance.Upgrade;
 
-        // 2. 레벨 복구 및 강제 주입
+        // 1. 자산 복구
+        asset.TotalAsset = BigInteger.Parse(data.totalMoney);
+
+        // 2. 레벨 복구 (GameManager를 통해 주입)
         foreach (var levelData in data.upgradeLevels)
         {
-            if (teamUpgradeManager.upgradeLevels.ContainsKey(levelData.id))
+            if (upgrade.upgradeLevels.ContainsKey(levelData.id))
             {
-                teamUpgradeManager.upgradeLevels[levelData.id] = levelData.level;
+                upgrade.upgradeLevels[levelData.id] = levelData.level;
             }
         }
 
