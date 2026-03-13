@@ -67,6 +67,7 @@ public class CheatManager : MonoBehaviour
         if (GameManager.Instance.SaveLoad != null)
         {
             GameManager.Instance.SaveLoad.isFirstReset = true;
+            GameManager.Instance.SaveLoad.ClearSaveFile();
         }
 
         // 하드디스크(PlayerPrefs) 삭제
