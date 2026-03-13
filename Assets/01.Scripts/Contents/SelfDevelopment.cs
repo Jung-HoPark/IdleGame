@@ -16,6 +16,8 @@ public class SelfDevelopment : MonoBehaviour
 
     [SerializeField]
     private int interval = 5; // 실행 간격
+    private int valuePercent = 100; // 기본값에 곱해지는 배율
+
 
     [SerializeField]
     private int minPercent = 50; // 50%
@@ -29,6 +31,14 @@ public class SelfDevelopment : MonoBehaviour
     {
         get { return isUnlocked; }
         private set { isUnlocked = value; }
+    }
+    public int ValuePercent
+    {
+        get { return valuePercent; }
+        set
+        {
+            valuePercent = value;
+        }
     }
     public int MinPercent
     {
@@ -83,7 +93,9 @@ public class SelfDevelopment : MonoBehaviour
     {
         int percent = Random.Range(minPercent, maxPercent + 1);
 
-        BigInteger income = value * percent / 100;
+        BigInteger baseValue = value * valuePercent / 100;
+
+        BigInteger income = baseValue * percent / 100;
 
         return income;
     }
