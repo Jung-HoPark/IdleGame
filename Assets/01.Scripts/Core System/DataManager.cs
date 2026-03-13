@@ -70,6 +70,16 @@ public class DataManager : MonoBehaviour
         File.WriteAllText(savePath, json);
         Debug.Log($"데이터 저장 완료: {savePath}");
     }
+
+    public void ClearSaveFile()
+    {
+        if (File.Exists(savePath))
+        {
+            File.Delete(savePath);
+            Debug.Log("Save file deleted: " + savePath);
+        }
+    }
+
     // 데이터 불러오기 로직
     public void Load()
     {
