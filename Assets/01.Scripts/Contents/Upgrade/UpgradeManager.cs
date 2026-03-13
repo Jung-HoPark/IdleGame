@@ -56,11 +56,24 @@ public class UpgradeManager : MonoBehaviour
                 GameManager.Instance.Asset.CPS += value;
                 break;
             case UpgradeType.OutSourcing:
-                // GameManager.Instance.outSourcing.IncreaseValue(value);
+                GameManager.Instance.OutSourcing.IncreaseValue(value);
                 break;
             case UpgradeType.SelfDevelopmnet:
-                // GameManager.Instance.selfDevelopmnet.IncreaseValue(value);
+                GameManager.Instance.SelfDevelopment.IncreaseValue(value);
                 break;
+            case UpgradeType.GlobalMultiplier:
+                GameManager.Instance.Asset.GlobalIncomePercent += (int)value;
+                break;
+            case UpgradeType.SelfDevelopmentMulti:
+                GameManager.Instance.SelfDevelopment.ValuePercent += (int)value;
+                break;
+            case UpgradeType.OutSourcingMulti:
+                GameManager.Instance.OutSourcing.ValuePercent += (int)value;
+                break;
+            case UpgradeType.AutoClicker:
+                // GameManager.Instance.AutoClickerManager.AutoClickCount += (int)value;
+                break;
+
         }
     }
 

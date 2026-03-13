@@ -16,6 +16,7 @@ public class OutSourcing : MonoBehaviour
 
     [SerializeField]
     private int interval = 5; // 실행 간격
+    private int valuePercent = 100; // 기본값에 곱해지는 배율
 
     [SerializeField]
     private int critChance = 30;
@@ -31,7 +32,11 @@ public class OutSourcing : MonoBehaviour
         get { return isUnlocked; }
         private set { isUnlocked = value; }
     }
-    
+    public int ValuePercent
+    {
+        get { return valuePercent; }
+        set { valuePercent = value;}
+    }
 
     public int CritChance
     {
@@ -78,7 +83,7 @@ public class OutSourcing : MonoBehaviour
 
     public BigInteger CalculateIncome()
     {
-        BigInteger income = value;
+        BigInteger income = value * ValuePercent / 100;
 
         if (Random.Range(0, 100) < CritChance)
         {
@@ -92,7 +97,7 @@ public class OutSourcing : MonoBehaviour
     public void AddIncome()
     {
         BigInteger income = CalculateIncome();
-        // GameManager.Instance.Asset.AddAsset(income);
+        GameManager.Instance.Asset.AddAsset(income);
         Debug.Log($"외주에서 {income} 지급");
     }
 

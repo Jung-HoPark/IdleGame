@@ -16,11 +16,21 @@ public class PlayerAssetManager : MonoBehaviour
     public BigInteger GoldPerClick = 1; // 클릭당 수익
     public BigInteger GoldPerMin => CPS * 60;
 
+    public int globalIncomePercent = 100; // 기본값에 곱해지는 배율
+
     [Header("Settings")]
     public bool isProfitFrozen = false; // 이벤트로 인한 수익 정지 상태 체크
 
     private CancellationTokenSource _cts;
 
+    public int GlobalIncomePercent
+    {
+        get { return globalIncomePercent; }
+        set
+        {
+            globalIncomePercent = value;
+        }
+    }
     public void Init()
     {
         _cts = new CancellationTokenSource();
@@ -52,7 +62,8 @@ public class PlayerAssetManager : MonoBehaviour
     {
         if (amount <= 0) return;
 
-        TotalAsset += amount;
+        BigInteger finalAmount = amount * globalIncomePercent / 100;
+        TotalAsset += finalAmount;
 
         // UI 업데이트 알림 (UIManager와 연동될 부분)
         if (GameManager.Instance.UI != null)

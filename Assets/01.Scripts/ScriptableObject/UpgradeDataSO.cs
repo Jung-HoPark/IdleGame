@@ -8,11 +8,12 @@ public enum UpgradeType
     OutSourcing,
     SelfDevelopmnet,
 
-    GlobalMultiplier,
-    OfflineReward,
-    StockEfficiency,
-    SalaryReduction,
-    AutoClicker
+    GlobalMultiplier, // 전체 퍼센트
+    SelfDevelopmentMulti, // 자체 개발 최소 최대 배율
+    OutSourcingMulti, // 아웃 소싱 치명타 배율
+    AutoClicker, // 추가 클릭 횟수
+
+    SalaryReduction
 }
 
 [CreateAssetMenu(fileName = "NewUpgradeData", menuName = "PangyoDev/UpgradeData")]
@@ -34,6 +35,9 @@ public class UpgradeDataSO : ScriptableObject
     public float costMultiplier = 1.15f;
     public float rewardGrowth = 0.5f; // 수익 상승 가속도
 
+    [Header("인트 성장 계수")]
+    public string intGrowth = "5";
+
     public int maxLevel = 300; // 최대 레벨
 
     public BigInteger GetCost(int currentLevel)
@@ -43,8 +47,20 @@ public class UpgradeDataSO : ScriptableObject
         return new BigInteger(cost);
     }
 
-    // 밸런스 해결의 핵심! 외부에서 currentLevel을 던져주면 보상을 계산해줌
     public BigInteger GetReward(int currentLevel)
+    {
+        if(type == UpgradeType.ClickPower || type == UpgradeType.AutoIncome || type == UpgradeType.OutSourcing || type == UpgradeType.SelfDevelopmnet)
+        {
+            return BigIntegerReward(currentLevel);
+        }
+        if (type == UpgradeType.GlobalMultiplier || type == UpgradeType.SelfDevelopmentMulti || type == UpgradeType.OutSourcingMulti || type == UpgradeType.AutoClicker)
+        {
+            return BigIntegerReward(currentLevel);
+        }
+        return 0;
+    }
+
+    public BigInteger BigIntegerReward(int currentLevel)
     {
         if (!BigInteger.TryParse(baseRewardStr, out BigInteger baseReward)) return 0; // return 0 = 안전장치 
         if (currentLevel == 0) return 0;
@@ -56,4 +72,16 @@ public class UpgradeDataSO : ScriptableObject
         //                    형변환                     초반 밸붕방지
         return baseReward + (BigInteger)addedReward + (currentLevel - 1);
     }
+
+    public BigInteger PercentReward(int currentLevel)
+    {
+        if (!BigInteger.TryParse(intGrowth, out BigInteger growth)) return 0;
+        if (currentLevel == 0) return 0;
+
+        return growth * currentLevel;
+    }
+
+
+
+
 }
